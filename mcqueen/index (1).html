@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>You're Built for Victory! 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffb6c1 0%, #ff5e62 100%);
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+    }
+    .hearts {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .card-message {
+      display: none;
+      background: rgba(255,255,255,0.95);
+      border-radius: 24px;
+      box-shadow: 0 4px 32px rgba(255,94,98,0.3);
+      padding: 2rem 2.5rem;
+      text-align: center;
+      font-size: 1.5rem;
+      color: #d7263d;
+      max-width: 400px;
+      margin: 0 auto;
+      z-index: 3;
+      position: relative;
+      animation: fadeIn 1.2s ease;
+      margin-top: 2rem;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .mcqueen-wrapper {
+      position: absolute;
+      left: -420px;
+      bottom: 80px;
+      width: 400px;
+      height: 170px;
+      z-index: 2;
+      cursor: pointer;
+      transition: filter 0.2s;
+    }
+    .mcqueen-wrapper:active {
+      filter: brightness(1.1) drop-shadow(0 0 16px #fff176);
+    }
+    .mcqueen {
+      width: 400px;
+      height: 170px;
+      user-select: none;
+      pointer-events: none;
+    }
+    .road {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: 100px;
+      background: repeating-linear-gradient(
+        90deg, #333 0, #333 60px, #fff 60px, #fff 90px
+      );
+      z-index: 0;
+    }
+    .from {
+      margin-top: 3rem;
+      color: #fff;
+      opacity: 0.92;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+      z-index: 2;
+    }
+    .honk-bubble {
+      display: none;
+      position: absolute;
+      left: 60%;
+      top: 5%;
+      background: #fffbe7;
+      color: #ff5e62;
+      font-size: 2.2rem;
+      font-weight: bold;
+      border-radius: 22px;
+      padding: 0.6rem 1.4rem;
+      border: 2.5px solid #ffd700;
+      box-shadow: 0 2px 10px #ffd70050;
+      z-index: 10;
+      animation: bubblePop 0.5s;
+      pointer-events: none;
+      user-select: none;
+    }
+    @keyframes bubblePop {
+      0% { transform: scale(0.5) translateY(-20px); opacity: 0;}
+      60% { transform: scale(1.2) translateY(-8px); opacity: 1;}
+      100% { transform: scale(1) translateY(0); opacity: 1;}
+    }
+    @keyframes shake {
+      0% { transform: translateX(0);}
+      15% { transform: translateX(-6px);}
+      30% { transform: translateX(7px);}
+      45% { transform: translateX(-5px);}
+      60% { transform: translateX(5px);}
+      75% { transform: translateX(-2px);}
+      90% { transform: translateX(2px);}
+      100% { transform: translateX(0);}
+    }
+    .shaking {
+      animation: shake 0.5s;
+    }
+    .zooming {
+      transition: left 0.05s !important;
+    }
+    @media (max-width: 600px) {
+      .mcqueen-wrapper {
+        width: 210px;
+        height: 90px;
+      }
+      .mcqueen {
+        width: 210px;
+        height: 90px;
+      }
+    }
+    /* Interactive Heart */
+    .love-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.1rem;
+      gap: 0.5rem;
+    }
+    .interactive-heart {
+      display: inline-block;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      position: relative;
+      vertical-align: middle;
+      transition: transform 0.15s;
+      will-change: transform;
+      user-select: none;
+    }
+    .interactive-heart svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .interactive-heart.pulse {
+      animation: heartPulse 0.38s cubic-bezier(.5,2,.5,1) 1;
+    }
+    @keyframes heartPulse {
+      0%   { transform: scale(1);}
+      35%  { transform: scale(1.5);}
+      60%  { transform: scale(1);}
+      100% { transform: scale(1);}
+    }
+    .sparkle {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+      opacity: 0;
+    }
+    .sparkle.show {
+      opacity: 1;
+      animation: sparklePop 0.7s forwards;
+    }
+    @keyframes sparklePop {
+      0% { opacity: 0; transform: scale(0.7) translate(-50%,-50%);}
+      40% { opacity: 1; transform: scale(1.2) translate(-50%,-50%);}
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.8) translate(-50%,-50%);}
+    }
+    .mwah-bubble {
+      display: none;
+      position: absolute;
+      left: 120%;
+      top: -28px;
+      font-size: 1.1rem;
+      background: #fffbe7;
+      color: #d7263d;
+      border-radius: 21px;
+      padding: 0.2rem 0.8rem;
+      border: 1.5px solid #ffd700;
+      box-shadow: 0 2px 10px #ffd70050;
+      z-index: 12;
+      animation: mwahPop 0.5s;
+      pointer-events: none;
+      user-select: none;
+      font-weight: bold;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    @keyframes mwahPop {
+      0% { transform: scale(0.6) translateY(-10px); opacity: 0;}
+      60% { transform: scale(1.15) translateY(-4px); opacity: 1;}
+      100% { transform: scale(1) translateY(0); opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+  <canvas class="hearts"></canvas>
+  <div class="road"></div>
+  <div class="mcqueen-wrapper" id="mcqueenWrapper">
+    <svg class="mcqueen" id="mcqueen" viewBox="0 0 400 170">
+      <!-- Stylized Lightning McQueen SVG (not an exact copy) -->
+      <rect x="20" y="70" width="360" height="60" rx="24" fill="#d7263d" stroke="black" stroke-width="6"/>
+      <ellipse cx="90" cy="155" rx="38" ry="24" fill="#222"/>
+      <ellipse cx="310" cy="155" rx="38" ry="24" fill="#222"/>
+      <rect x="60" y="40" width="280" height="44" rx="20" fill="#ffd700" stroke="#d7263d" stroke-width="4"/>
+      <text x="155" y="86" font-size="40" fill="#fff" font-family="Arial" font-weight="bold">95</text>
+      <circle cx="90" cy="155" r="18" fill="#ccc"/>
+      <circle cx="310" cy="155" r="18" fill="#ccc"/>
+      <!-- Smile -->
+      <path d="M110 120 Q200 170 290 120" stroke="#fff" stroke-width="6" fill="none"/>
+      <!-- Eyes -->
+      <ellipse cx="130" cy="65" rx="19" ry="15" fill="#fff"/>
+      <ellipse cx="270" cy="65" rx="19" ry="15" fill="#fff"/>
+      <ellipse cx="130" cy="70" rx="8" ry="8" fill="#3a77f6"/>
+      <ellipse cx="270" cy="70" rx="8" ry="8" fill="#3a77f6"/>
+      <!-- Headlights -->
+      <ellipse cx="40" cy="100" rx="12" ry="6" fill="#fffbe7" stroke="#ffd700" stroke-width="2"/>
+      <ellipse cx="360" cy="100" rx="12" ry="6" fill="#fffbe7" stroke="#ffd700" stroke-width="2"/>
+      <!-- Hearts on car -->
+      <path d="M200 105 
+        Q195 95 205 95 
+        Q210 95 200 110 
+        Q190 95 195 95 
+        Q205 95 200 105" 
+        fill="#ff5e62" stroke="#fff" stroke-width="1"/>
+    </svg>
+    <div class="honk-bubble" id="honkBubble">HONK!</div>
+  </div>
+
+  <div class="card-message" id="cardMessage">
+    Just like <b>Lightning McQueen</b> on the final lap, you’re built for victory.<br>
+    These exams? They don’t stand a chance!<br>
+    <div class="love-container">
+      <span style="font-size:2rem;display:block;">Love you</span>
+      <span class="interactive-heart" id="interactiveHeart" tabindex="0" title="Tap me!">
+        <svg viewBox="0 0 40 40" fill="none">
+          <path d="M20 35 Q6 24 8 14 Q10 5 20 10 Q30 5 32 14 Q34 24 20 35Z" 
+            fill="#ff5e62" stroke="#d7263d" stroke-width="2"/>
+        </svg>
+        <svg class="sparkle" id="sparkle" width="38" height="38" viewBox="0 0 38 38" fill="none">
+          <g>
+            <circle cx="19" cy="19" r="4" fill="#ffd6e0" />
+            <circle cx="8" cy="11" r="2.2" fill="#ffd700"/>
+            <circle cx="32" cy="13" r="1.5" fill="#ffd700"/>
+            <circle cx="27" cy="30" r="2" fill="#ffd6e0"/>
+            <circle cx="12" cy="31" r="1.2" fill="#ffd700"/>
+          </g>
+        </svg>
+        <span class="mwah-bubble" id="mwahBubble">mwah! 💋</span>
+      </span>
+    </div>
+  </div>
+  <div class="from">From Apurba</div>
+  <script>
+    // Lightning McQueen animation and interactivity
+    const mcqueenWrapper = document.getElementById('mcqueenWrapper');
+    const mcqueen = document.getElementById('mcqueen');
+    const cardMessage = document.getElementById('cardMessage');
+    const honkBubble = document.getElementById('honkBubble');
+
+    let left = -420;
+    let speed = 18; // Default speed
+    let animInterval = null;
+    let finished = false;
+    let zooming = false;
+
+    function moveMcQueen() {
+      const screenW = window.innerWidth;
+      animInterval = setInterval(() => {
+        left += speed;
+        mcqueenWrapper.style.left = left + 'px';
+        if (left > screenW) {
+          clearInterval(animInterval);
+          mcqueenWrapper.style.display = 'none';
+          cardMessage.style.display = 'block';
+          finished = true;
+        }
+      }, 18);
+    }
+
+    function startAnimation() {
+      left = -420;
+      speed = 18;
+      finished = false;
+      mcqueenWrapper.style.display = 'block';
+      mcqueenWrapper.style.left = left + 'px';
+      cardMessage.style.display = 'none';
+      moveMcQueen();
+    }
+
+    // Interactivity: Honk on click/tap
+    function honk() {
+      honkBubble.style.display = 'block';
+      mcqueenWrapper.classList.add('shaking');
+      setTimeout(() => {
+        honkBubble.style.display = 'none';
+        mcqueenWrapper.classList.remove('shaking');
+      }, 700);
+    }
+
+    mcqueenWrapper.addEventListener('click', () => {
+      if (!finished) honk();
+    });
+    mcqueenWrapper.addEventListener('touchstart', (e) => {
+      if (!finished) honk();
+    });
+
+    // Interactivity: Zoom on hover/tap and slow back after
+    mcqueenWrapper.addEventListener('mouseenter', () => {
+      if (!finished && !zooming) {
+        zooming = true;
+        mcqueenWrapper.classList.add('zooming');
+        speed = 45;
+        setTimeout(() => {
+          speed = 18;
+          mcqueenWrapper.classList.remove('zooming');
+          zooming = false;
+        }, 600);
+      }
+    });
+    mcqueenWrapper.addEventListener('touchstart', () => {
+      if (!finished && !zooming) {
+        zooming = true;
+        mcqueenWrapper.classList.add('zooming');
+        speed = 45;
+        setTimeout(() => {
+          speed = 18;
+          mcqueenWrapper.classList.remove('zooming');
+          zooming = false;
+        }, 600);
+      }
+    });
+
+    // Cute floating hearts background
+    const canvas = document.querySelector('.hearts');
+    const ctx = canvas.getContext('2d');
+    let hearts = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function drawHeart(x, y, size, color, alpha) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.moveTo(x, y + size / 4);
+      ctx.bezierCurveTo(
+        x, y, x - size / 2, y, x - size / 2, y + size / 4,
+        x - size / 2, y + size / 2, x, y + size,
+        x + size / 2, y + size / 2, x + size / 2, y + size / 4,
+        x + size / 2, y, x, y
+      );
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.restore();
+    }
+    function createHeart() {
+      const x = Math.random() * canvas.width;
+      const y = canvas.height + 20;
+      const size = 18 + Math.random() * 16;
+      const speed = 1 + Math.random() * 1.2;
+      const color = Math.random() > 0.7 ? "#ffd6e0" : "#ff5e62";
+      return { x, y, size, speed, color, alpha: 0.8 + 0.2 * Math.random()};
+    }
+    function renderHearts() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (hearts.length < 32 && Math.random() > 0.7) {
+        hearts.push(createHeart());
+      }
+      for (let i = 0; i < hearts.length; i++) {
+        let heart = hearts[i];
+        drawHeart(heart.x, heart.y, heart.size, heart.color, heart.alpha);
+        heart.y -= heart.speed;
+        heart.x += Math.sin(heart.y / 24) * 1.2;
+        heart.alpha -= 0.0008 * heart.size;
+        if (heart.y < -40 || heart.alpha <= 0) {
+          hearts.splice(i, 1);
+          i--;
+        }
+      }
+      requestAnimationFrame(renderHearts);
+    }
+    renderHearts();
+
+    // Interactive Heart
+    const interactiveHeart = document.getElementById("interactiveHeart");
+    const sparkle = document.getElementById("sparkle");
+    const mwahBubble = document.getElementById("mwahBubble");
+    function animateHeart() {
+      // Animate heart
+      interactiveHeart.classList.add("pulse");
+      // Animate sparkle
+      sparkle.classList.add("show");
+      // Show mwah bubble
+      mwahBubble.style.display = "block";
+      // Remove animations after
+      setTimeout(() => {
+        interactiveHeart.classList.remove("pulse");
+        sparkle.classList.remove("show");
+        mwahBubble.style.display = "none";
+      }, 900);
+    }
+    interactiveHeart.addEventListener("click", animateHeart);
+    interactiveHeart.addEventListener("touchstart", animateHeart);
+    interactiveHeart.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") animateHeart();
+    });
+
+    // Start animation when page loads
+    window.onload = startAnimation;
+  </script>
+</body>
+</html>
